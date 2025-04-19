@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>برنامه اتوبوس دانشگاه</title>
+    
+    <meta name="theme-color" content="#124e66">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="اتوبوس UUT">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <link rel="apple-touch-icon" href="./icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" href="./icons/favicon.ico">
+    <link rel="manifest" href="./manifest.json">
+    
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#212a31',
+                        secondary: '#2e3944',
+                        accent: '#124e66',
+                        textLight: '#d3d0d4'
+                    }
+                }
+            }
+        }
+    </script>
+    
+    <style>
+        body {
+            background-color: #748d92;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .glass-card {
+            background: rgba(33, 42, 49, 0.85);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(46, 57, 68, 0.3);
+        }
+        .loading-spinner {
+            animation: spin 1s linear infinite;
+        }
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        .toast {
+            animation: fadeIn 0.3s, fadeOut 0.5s 2.5s forwards;
+        }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes fadeOut { to { opacity: 0; } }
+    </style>
+</head>
+<body class="flex flex-col items-center p-4 min-h-screen">
+    <div class="glass-card w-full max-w-md rounded-xl p-6 mt-8 shadow-lg">
+        <h1 class="text-3xl font-bold text-center mb-6 text-blue-400">
+            🚍 برنامه زمانی اتوبوس
+        </h1>
+        
+        <div class="mb-5">
+            <label class="block text-lg mb-2 font-medium text-textLight">مقصد را انتخاب کنید:</label>
+            <select id="destination" class="w-full p-3 rounded-lg bg-secondary text-textLight border border-accent">
+                <option value="destination1">چهارراه دانشکده</option>
+                <option value="destination2">جهتلو</option>
+                <option value="destination3">ایثار</option>
+            </select>
+        </div>
+
+        <div class="mb-6">
+            <label class="block text-lg mb-2 font-medium text-textLight">مسیر را انتخاب کنید:</label>
+            <select id="direction" class="w-full p-3 rounded-lg bg-secondary text-textLight border border-accent">
+                <option value="to">به دانشگاه</option>
+                <option value="from">از دانشگاه</option>
+            </select>
+        </div>
+
+        <div id="loading" class="hidden flex justify-center my-4">
+            <div class="loading-spinner rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-400"></div>
+        </div>
+
+        <div class="glass-card p-4 rounded-lg mb-4">
+            <div id="schedule" class="text-xl font-semibold text-textLight"></div>
+        </div>
+
+        <div class="glass-card p-4 rounded-lg">
+            <div id="nextBusTimer" class="text-lg font-medium text-blue-300"></div>
+        </div>
+
+        <div class="glass-card p-4 rounded-lg mt-4">
+            <h3 class="text-lg font-semibold mb-3 text-textLight">⏰ تنظیم یادآوری</h3>
+            <div class="mb-3">
+                <label class="block text-sm mb-1 text-textLight">دقیقه قبل از حرکت:</label>
+                <input type="number" id="reminderMinutes" min="1" max="60" value="10" 
+                       class="w-full p-2 rounded-lg bg-secondary text-textLight border border-gray-600">
+            </div>
+            <button id="setReminderBtn" class="w-full bg-accent hover:bg-blue-700 text-white py-2 rounded-lg transition-all">
+                فعال کردن یادآوری
+            </button>
+            <button id="clearReminderBtn" class="w-full mt-2 bg-gray-600 hover:bg-gray-700 text-white py-2 rounded-lg transition-all hidden">
+                غیرفعال کردن یادآوری
+            </button>
+        </div>
+    </div>
+
+    <div id="iosInstallGuide" class="hidden fixed bottom-4 left-4 right-4 bg-blue-600 text-white p-3 rounded-lg shadow-lg animate-pulse">
+        <div class="flex items-center justify-between">
+            <span>برای نصب: دکمه Share → Add to Home Screen</span>
+            <button onclick="dismissIosGuide()" class="text-white">×</button>
+        </div>
+    </div>
+
+    <script src="./src/script.js"></script>
+    <script>
+        if (/iPad|iPhone|iPod/.test(navigator.userAgent)) {
+            if (!window.navigator.standalone) {
+                document.getElementById('iosInstallGuide').classList.remove('hidden');
+            }
+        }
+        
+        function dismissIosGuide() {
+            document.getElementById('iosInstallGuide').classList.add('hidden');
+        }
+    </script>
+</body>
+</html>

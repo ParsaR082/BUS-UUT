@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html dir="rtl" lang="fa">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>حالت آفلاین | برنامه اتوبوس</title>
+    <link rel="manifest" href="./manifest.json">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #748d92;
+            color: #d3d0d4;
+            text-align: center;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 100vh;
+        }
+        h1 {
+            color: #a5d8ff;
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+        p {
+            margin-bottom: 2rem;
+            line-height: 1.6;
+        }
+        button {
+            background: #124e66;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 1rem;
+            margin: 0 auto;
+            transition: background 0.3s;
+        }
+        button:hover {
+            background: #0d3a4d;
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <h1>⚠️ حالت آفلاین</h1>
+        <p>برنامه در حال حاضر به اینترنت دسترسی ندارد. آخرین اطلاعات ذخیره شده نمایش داده می‌شود.</p>
+        <button onclick="location.reload()">تلاش مجدد</button>
+    </div>
+</body>
+</html>

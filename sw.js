@@ -1,5 +1,5 @@
 // فایل: ./sw.js
-const CACHE_NAME = 'uut-bus-v4';
+const CACHE_NAME = 'uut-bus-v5';
 const DYNAMIC_CACHE = 'dynamic-cache-v1';
 const OFFLINE_URL = './offline.html';
 

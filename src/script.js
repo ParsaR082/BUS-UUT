@@ -1,3 +1,58 @@
+// فایل: ./src/script.js
+// ======= بخش جدید =======
+const dbName = 'BusScheduleDB';
+const storeName = 'schedules';
+
+// Initialize DB
+function initDB() {
+  return new Promise((resolve, reject) => {
+    const request = indexedDB.open(dbName, 1);
+    
+    request.onupgradeneeded = (event) => {
+      const db = event.target.result;
+      if (!db.objectStoreNames.contains(storeName)) {
+        db.createObjectStore(storeName, { keyPath: 'id' });
+      }
+    };
+
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error);
+  });
+}
+
+// Save to DB
+function saveToDB(data) {
+  return initDB().then(db => {
+    const tx = db.transaction(storeName, 'readwrite');
+    tx.objectStore(storeName).put({ 
+      id: 'current_schedule', 
+      data: data,
+      updatedAt: new Date().toISOString()
+    });
+    return tx.complete;
+  });
+}
+
+// Load from DB
+function loadFromDB() {
+  return initDB().then(db => {
+    return new Promise(resolve => {
+      const tx = db.transaction(storeName, 'readonly');
+      const request = tx.objectStore(storeName).get('current_schedule');
+      request.onsuccess = () => resolve(request.result?.data || null);
+      request.onerror = () => resolve(null);
+    });
+  });
+}
+
+// Load cached data on startup
+loadFromDB().then(cached => {
+  if (cached) {
+    Object.assign(busSchedules, cached);
+    updateSchedule();
+  }
+});
+// ======= پایان بخش جدید =======
 
 const busSchedules = {
     "destination1": { 
@@ -33,22 +88,24 @@ const elements = {
 
 function updateSchedule() {
     clearInterval(timerInterval);
-    clearTimeout(reminderTimeout);
-    
-    elements.scheduleDiv.innerHTML = '';
-    elements.timerDiv.innerHTML = '';
     elements.loading.classList.remove('hidden');
-
-    setTimeout(() => {
+  
+    // ذخیره داده‌ها در DB
+    saveToDB(busSchedules)
+      .then(() => {
         const destination = elements.destinationSelect.value;
         const direction = elements.directionSelect.value;
         const times = busSchedules[destination][direction];
-
+        
         displaySchedule(times);
         updateTimer(times);
         elements.loading.classList.add('hidden');
-    }, 300);
-}
+      })
+      .catch(err => {
+        console.error('خطا در ذخیره داده:', err);
+        elements.loading.classList.add('hidden');
+      });
+  }
 
 function displaySchedule(times) {
     const now = new Date();
@@ -332,3 +389,14 @@ if ('serviceWorker' in navigator) {
             .catch(err => console.error('خطا در ثبت ServiceWorker:', err));
     });
 }
+// ثبت sync
+function registerBackgroundSync() {
+    if ('serviceWorker' in navigator && 'SyncManager' in window) {
+      navigator.serviceWorker.ready
+        .then(reg => reg.sync.register('sync-data'))
+        .catch(err => console.log('خطا در ثبت Background Sync:', err));
+    }
+  }
+  
+  // فراخوانی پس از آنلاین شدن
+  window.addEventListener('online', registerBackgroundSync);

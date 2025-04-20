@@ -104,6 +104,7 @@
             </button>
         </div>
     </div>
+    
     <a dir="ltr" href="https://github.com/ParsaR082"><footer class="bf-gray-600 w-full max-w-md text-center mt-8 mb-4 text-textLight opacity-80">
     Developed By Parsa Rahmani
     </footer></a>
@@ -129,5 +130,29 @@
             document.getElementById('iosInstallGuide').classList.add('hidden');
         }
     </script>
+    <!-- فایل: ./index.html -->
+<div id="offlineStatus" class="hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-yellow-500 text-white px-4 py-2 rounded-lg shadow-lg z-50">
+    ⚠️ شما در حالت آفلاین هستید
+  </div>
+  
+  <script>
+    // بررسی وضعیت آنلاین/آفلاین
+    function updateOnlineStatus() {
+      const statusEl = document.getElementById('offlineStatus');
+      if (navigator.onLine) {
+        statusEl.classList.add('hidden');
+        updateSchedule(); // به‌روزرسانی داده‌ها هنگام آنلاین شدن
+      } else {
+        statusEl.classList.remove('hidden');
+      }
+    }
+  
+    // رویدادهای وضعیت شبکه
+    window.addEventListener('online', updateOnlineStatus);
+    window.addEventListener('offline', updateOnlineStatus);
+    
+    // بررسی اولیه
+    updateOnlineStatus();
+  </script>
 </body>
 </html>

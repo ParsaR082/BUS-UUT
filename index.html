@@ -14,7 +14,7 @@
     <link rel="icon" type="image/png" href="./icons/favicon.ico">
     <link rel="manifest" href="./manifest.json">
     
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="src/output.css">
     <script>
         tailwind.config = {
             theme: {
@@ -59,7 +59,7 @@
             🚍 برنامه زمانی اتوبوس
         </h1>
         
-        <div class="mb-5">
+        <div class="mb-5 text-gray-300">
             <label class="block text-lg mb-2 font-medium text-textLight">مقصد را انتخاب کنید:</label>
             <select id="destination" class="w-full p-3 rounded-lg bg-secondary text-textLight border border-accent">
                 <option value="destination1">چهارراه دانشکده</option>
@@ -69,7 +69,7 @@
             </select>
         </div>
 
-        <div class="mb-6">
+        <div class="mb-6 text-gray-300">
             <label class="block text-lg mb-2 font-medium text-textLight">مسیر را انتخاب کنید:</label>
             <select id="direction" class="w-full p-3 rounded-lg bg-secondary text-textLight border border-accent">
                 <option value="to">به دانشگاه</option>
@@ -89,7 +89,7 @@
             <div id="nextBusTimer" class="text-lg font-medium text-blue-300"></div>
         </div>
 
-        <div class="glass-card p-4 rounded-lg mt-4">
+        <div class="glass-card p-4 rounded-lg mt-4 text-gray-300">
             <h3 class="text-lg font-semibold mb-3 text-textLight">⏰ تنظیم یادآوری</h3>
             <div class="mb-3">
                 <label class="block text-sm mb-1 text-textLight">دقیقه قبل از حرکت:</label>

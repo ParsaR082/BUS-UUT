@@ -1,9 +1,7 @@
-// فایل: ./src/script.js
-// ======= بخش جدید =======
 const dbName = 'BusScheduleDB';
 const storeName = 'schedules';
 
-// Initialize DB
+
 function initDB() {
   return new Promise((resolve, reject) => {
     const request = indexedDB.open(dbName, 1);
@@ -20,7 +18,7 @@ function initDB() {
   });
 }
 
-// Save to DB
+
 function saveToDB(data) {
   return initDB().then(db => {
     const tx = db.transaction(storeName, 'readwrite');
@@ -33,7 +31,7 @@ function saveToDB(data) {
   });
 }
 
-// Load from DB
+
 function loadFromDB() {
   return initDB().then(db => {
     return new Promise(resolve => {
@@ -45,14 +43,12 @@ function loadFromDB() {
   });
 }
 
-// Load cached data on startup
 loadFromDB().then(cached => {
   if (cached) {
     Object.assign(busSchedules, cached);
     updateSchedule();
   }
 });
-// ======= پایان بخش جدید =======
 
 const busSchedules = {
     "destination1": { 

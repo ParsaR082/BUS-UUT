@@ -1,4 +1,3 @@
-// فایل: ./sw.js
 const CACHE_NAME = 'uut-bus-v5';
 const DYNAMIC_CACHE = 'dynamic-cache-v1';
 const OFFLINE_URL = './offline.html';
@@ -12,16 +11,14 @@ const PRECACHE_URLS = [
   './icons/icon-192x192.png',
   './icons/icon-512x512.png'
 ];
-// قبل از addEventListener('fetch')
 self.addEventListener('sync', event => {
     if (event.tag === 'sync-data') {
       event.waitUntil(
-        fetchNewData() // تابعی برای دریافت داده‌های جدید
+        fetchNewData() 
           .then(data => updateCaches(data))
       );
     }
   });
-// نصب و پیش‌کش
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -30,7 +27,6 @@ self.addEventListener('install', event => {
   );
 });
 
-// فعال‌سازی و حذف کش‌های قدیمی
 self.addEventListener('activate', event => {
   event.waitUntil(
     caches.keys().then(keys => Promise.all(
@@ -43,9 +39,7 @@ self.addEventListener('activate', event => {
   );
 });
 
-// مدیریت درخواست‌ها
 self.addEventListener('fetch', event => {
-  // برای مسیرهای اصلی، صفحه اصلی را برگردان
   if (event.request.mode === 'navigate') {
     event.respondWith(
       fetch(event.request)
@@ -54,12 +48,10 @@ self.addEventListener('fetch', event => {
     return;
   }
 
-  // استراتژی Cache First با Fallback به شبکه
   event.respondWith(
     caches.match(event.request)
       .then(cached => cached || fetch(event.request)
         .then(response => {
-          // ذخیره پاسخ‌های معتبر در کش پویا
           if (response && response.status === 200) {
             const clone = response.clone();
             caches.open(DYNAMIC_CACHE)
@@ -68,7 +60,6 @@ self.addEventListener('fetch', event => {
           return response;
         })
         .catch(() => {
-          // Fallback برای فایل‌های دیگر
           if (event.request.headers.get('accept').includes('text/html')) {
             return caches.match(OFFLINE_URL);
           }

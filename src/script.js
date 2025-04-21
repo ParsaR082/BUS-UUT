@@ -130,7 +130,7 @@ function displaySchedule(times) {
             <span class="inline-block px-2 py-1 m-1 rounded-md transition-all 
                 ${isClosest ? 
                     'bg-gradient-to-r from-blue-500 to-blue-600 text-white font-bold scale-105 shadow-lg' : 
-                    'bg-gray-700 hover:bg-gray-600'}">
+                    'bg-gray-700 text-gray-300 hover:bg-gray-600'}">
                 ${time}
                 ${isClosest ? ' 🚀' : ''}
             </span>
